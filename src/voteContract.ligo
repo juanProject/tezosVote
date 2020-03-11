@@ -32,13 +32,24 @@ function submitvote(const vote: bool; const store: storageType): (list(operation
                     | None -> block {
                         store.votes[sender] := vote;
                         store.voteCount := store.voteCount + 1n;
-                        if store.voteCount = 10 then 
+                        if store.voteCount = 10n then 
                             store.paused := True 
                         else skip
                     }
                 end
             }
         else failwith("Contract is paused");
+    end with ((nil: list(operation)) , store)
+
+function reset(const store: storageType): (list(operation) * storageType) is
+    begin
+        if is_admin(store) then block {
+            for elem in map store.votes block {
+                remove elem from map store.votes;
+            };
+            store.paused := False;
+            store.voteCount := 0n;
+        } else failwith("Access denied: you are not admin")
     end with ((nil: list(operation)) , store)
 
 function mainVote(const action : actionContract; const store: storageType) : (list(operation) * storageType) is
