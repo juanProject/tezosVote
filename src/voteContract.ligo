@@ -1,9 +1,7 @@
-type actionVote is record [
-  choice: bool;
-]
+
 
 type actionContract is
-| Vote of actionVote
+| Vote of bool
 | Reset of int
 
 type voteList is map(address, bool)
@@ -21,7 +19,7 @@ function is_admin(const store: storageType): bool is
 function is_paused(const store: storageType): bool is
     block { skip } with (store.paused)
 
-function submitvote(const vote: bool; const store: storageType): (list(operation) * storageType) is
+function subVote(const vote: bool; const store: storageType): (list(operation) * storageType) is
     begin
         if is_paused(store) then
             if is_admin(store) then
@@ -52,9 +50,9 @@ function reset(const store: storageType): (list(operation) * storageType) is
         } else failwith("Access denied: you are not admin")
     end with ((nil: list(operation)) , store)
 
-function mainVote(const action : actionContract; const store: storageType) : (list(operation) * storageType) is
+function main(const action : actionContract; const store: storageType) : (list(operation) * storageType) is
   block {skip} with
     case action of
-        | Vote(v) -> submitVote(v.choice, store)
+        | Vote(v) -> subVote(v, store)
         | Reset (a) -> reset(store)
     end
