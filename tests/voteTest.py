@@ -87,7 +87,7 @@ class voteContractTest(TestCase):
     
     def test_reset(self):
         admin = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
-        alice = "tz3WMqdzXqRWXwyvj5Hp2H7QEepaUuS7vd9K"
+        alice = "tz1LFuHW4Z9zsCwg1cgGTKU12WZAs27ZD14v"
         bob = "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ"
         result = self.voteContract.reset(
             0
