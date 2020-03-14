@@ -103,6 +103,10 @@
              SWAP ;
              CAR ;
              CDR ;
+             PUSH bool False ;
+             SWAP ;
+             COMPARE ;
+             EQ ;
              IF { DIP { DUP } ;
                   SWAP ;
                   DIP { DIP 2 { DUP } ; DIG 2 } ;
@@ -111,8 +115,11 @@
                   DIG 2 ;
                   DIP { DIP 7 { DUP } ; DIG 7 } ;
                   EXEC ;
-                  IF { PUSH string "Admin can't vote" ; FAILWITH }
-                     { DIP 2 { DUP } ;
+                  PUSH bool False ;
+                  SWAP ;
+                  COMPARE ;
+                  EQ ;
+                  IF { DIP 2 { DUP } ;
                        DIG 2 ;
                        DIP { DIP 3 { DUP } ; DIG 3 } ;
                        PAIR ;
@@ -202,7 +209,8 @@
                        CDR ;
                        SWAP ;
                        PAIR ;
-                       DIP { DROP } } ;
+                       DIP { DROP } }
+                     { PUSH string "Admin can't vote" ; FAILWITH } ;
                   DIP { DROP ; DUP } ;
                   SWAP ;
                   DIP { DUP } ;

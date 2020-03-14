@@ -14,7 +14,7 @@ class voteContractTest(TestCase):
         alice = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
 
         result = self.voteContract.vote(
-            vote = True
+            True
         ).result(
             storage = {
             "votes": { },
@@ -24,7 +24,7 @@ class voteContractTest(TestCase):
             },
             source = alice
         )
-        self.assertEqual(True, result.big_map_diff['votes'][alice])
+        self.assertEqual(True, result.storage['votes'][alice])
 
 """     def test_burn(self):
         alice = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
