@@ -87,6 +87,8 @@ class voteContractTest(TestCase):
     
     def test_reset(self):
         admin = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
+        alice = "tz3WMqdzXqRWXwyvj5Hp2H7QEepaUuS7vd9K"
+        bob = "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ"
         result = self.voteContract.reset(
             0
         ).result(
@@ -96,7 +98,7 @@ class voteContractTest(TestCase):
             "admin": "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z",
             "voteCount": 10
             },
-            source = alice
+            source = admin
         )
         self.assertEqual({}, result.storage["votes"])
         self.assertEqual(False, result.storage["paused"])
