@@ -1,6 +1,6 @@
 from os.path import dirname, join
 from unittest import TestCase
-from pytezos import ContractInterface
+from pytezos import ContractInterface, MichelsonRuntimeError
 
 class voteContractTest(TestCase):
 
