@@ -120,7 +120,7 @@ class voteContractTest(TestCase):
             True
         ).result(
             storage = {
-            "votes": { frank: True, bob: False },
+            "votes": { bob: True, frank: False },
             "paused": False,
             "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
             "voteCount": 9,
@@ -141,7 +141,7 @@ class voteContractTest(TestCase):
             True
         ).result(
             storage = {
-            "votes": { frank: True, bob: False, pascal: False },
+            "votes": { bob: True, pascal: False, frank: False },
             "paused": False,
             "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
             "voteCount": 9,
