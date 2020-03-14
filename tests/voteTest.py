@@ -25,6 +25,22 @@ class voteContractTest(TestCase):
             source = alice
         )
         self.assertEqual(True, result.storage['votes'][alice])
+    
+    def test_no_second_vote(self):
+        alice = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
+
+        result = self.voteContract.vote(
+            False
+        ).result(
+            storage = {
+            "votes": { alice: True },
+            "paused": False,
+            "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
+            "voteCount": 0
+            },
+            source = alice
+        )
+        self.assertRaises(MichelsonRuntimeError)
 
 """     def test_burn(self):
         alice = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
