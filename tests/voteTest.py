@@ -35,84 +35,69 @@ class voteContractTest(TestCase):
                 "votes": { alice: True },
                 "paused": False,
                 "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
+                "voteCount": 1
+                },
+                source = alice
+            )
+    
+    def test_admin_vote(self):
+        alice = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
+
+        with self.assertRaises(MichelsonRuntimeError):
+            self.voteContract.vote( False ).result(
+                storage = {
+                "votes": { alice: True },
+                "paused": False,
+                "admin": "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z",
                 "voteCount": 0
                 },
                 source = alice
             )
 
-"""     def test_burn(self):
+    def test_contract_paused(self):
         alice = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
-        valInit = 10
-        valBurn = 2
 
-        result = self.token_v3.burn(
-            owner=alice,
-            burnValue=valBurn
-        ).result(
-            storage={
-            "admin": alice,
-            "balances": { alice: valInit },
-            "paused": False,
-            "shareType": "APPLE",
-            "totalSupply": 0
-            },
-            source=alice
-        )
-        self.assertEqual(valInit - valBurn, result.big_map_diff['balances'][alice])
-
-    def test_set_admin(self):
-        root = "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ"
+        with self.assertRaises(MichelsonRuntimeError):
+            self.voteContract.vote( False ).result(
+                storage = {
+                "votes": { alice: True },
+                "paused": True,
+                "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
+                "voteCount": 0
+                },
+                source = alice
+            )
+    
+    def test_auto_pause(self):
         alice = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
-        result = self.token_v3.setAdmin(
-            root
-        ).result(
-            storage={
-            "admin": alice,
-            "balances": {  },
-            "paused": False,
-            "shareType": "APPLE",
-            "totalSupply": 0
-            },
-            source=alice
-        )
-        self.assertEqual(root, result.storage['admin'])
 
-    def test_pause(self):
-        root = "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ"
-        status = True
-        result = self.token_v3.pause(
-            status
+        result = self.voteContract.vote(
+            True
         ).result(
-            storage={
-            "admin": root,
-            "balances": {  },
+            storage = {
+            "votes": { },
             "paused": False,
-            "shareType": "APPLE",
-            "totalSupply": 0
+            "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
+            "voteCount": 9
             },
-            source=root
+            source = alice
         )
-        self.assertEqual(status, result.storage['paused'])
-
-    def test_transfer(self):
-        bob = "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ"
-        alice = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
-        valInit = 10
-        valTransfer = 2
-
-        result = self.token_v3.transfer(
-            fromOwner=alice,
-            toOwner=bob,
-            value=valTransfer
+        self.assertEqual(10, result.storage["voteCount"])
+        self.assertEqual(True, result.storage['paused'])
+    
+    def test_reset(self):
+        admin = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
+        result = self.voteContract.reset(
+            0
         ).result(
-            storage={
-            "admin": alice,
-            "balances": { alice: valInit },
-            "paused": False,
-            "shareType": "APPLE",
-            "totalSupply": 0
+            storage = {
+            "votes": { alice: True, bob: True },
+            "paused": True,
+            "admin": "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z",
+            "voteCount": 10
             },
-            source=alice
+            source = alice
         )
-        self.assertEqual(valInit - valTransfer, result.big_map_diff['balances'][alice])
-        self.assertEqual(valTransfer, result.big_map_diff['balances'][bob]) """
+        self.assertEqual({}, result.storage["votes"])
+        self.assertEqual(False, result.storage["paused"])
+        self.assertEqual(0, result.storage["voteCount"])

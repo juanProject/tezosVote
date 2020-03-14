@@ -41,7 +41,7 @@ function subVote(const vote: bool; const store: storageType): (list(operation) *
 
 function reset(const store: storageType): (list(operation) * storageType) is
     begin
-        if is_admin(store) then block {
+        if is_admin(store) = True then block {
             for elem in map store.votes block {
                 remove elem from map store.votes;
             };
