@@ -14,7 +14,7 @@ class voteContractTest(TestCase):
         alice = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
 
         result = self.voteContract.vote(
-            choice = True
+            vote = True
         ).result(
             storage = {
             "votes": { },

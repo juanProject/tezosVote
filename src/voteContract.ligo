@@ -1,7 +1,9 @@
-
+type actionVote is record [
+  vote : bool;
+]
 
 type actionContract is
-| Vote of bool
+| Vote of actionVote
 | Reset of int
 
 type voteList is map(address, bool)
@@ -53,6 +55,6 @@ function reset(const store: storageType): (list(operation) * storageType) is
 function main(const action : actionContract; const store: storageType) : (list(operation) * storageType) is
   block {skip} with
     case action of
-        | Vote(v) -> subVote(v, store)
+        | Vote(v) -> subVote(v.vote, store)
         | Reset (a) -> reset(store)
     end
