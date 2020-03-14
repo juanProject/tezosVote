@@ -20,7 +20,8 @@ class voteContractTest(TestCase):
             "votes": { },
             "paused": False,
             "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
-            "voteCount": 0
+            "voteCount": 0,
+            "result": ""
             },
             source = alice
         )
@@ -35,7 +36,8 @@ class voteContractTest(TestCase):
                 "votes": { alice: True },
                 "paused": False,
                 "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
-                "voteCount": 1
+                "voteCount": 1,
+                "result": ""
                 },
                 source = alice
             )
@@ -49,7 +51,8 @@ class voteContractTest(TestCase):
                 "votes": { alice: True },
                 "paused": False,
                 "admin": "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z",
-                "voteCount": 0
+                "voteCount": 0,
+                "result": ""
                 },
                 source = alice
             )
@@ -63,7 +66,8 @@ class voteContractTest(TestCase):
                 "votes": { alice: True },
                 "paused": True,
                 "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
-                "voteCount": 0
+                "voteCount": 0,
+                "result": ""
                 },
                 source = alice
             )
@@ -78,7 +82,8 @@ class voteContractTest(TestCase):
             "votes": { },
             "paused": False,
             "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
-            "voteCount": 9
+            "voteCount": 9,
+            "result": ""
             },
             source = alice
         )
@@ -96,10 +101,52 @@ class voteContractTest(TestCase):
             "votes": { alice: True, bob: True },
             "paused": True,
             "admin": "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z",
-            "voteCount": 10
+            "voteCount": 10,
+            "result": "oui"
             },
             source = admin
         )
         self.assertEqual({}, result.storage["votes"])
         self.assertEqual(False, result.storage["paused"])
         self.assertEqual(0, result.storage["voteCount"])
+        self.assertEqual("", result.storage["result"])
+
+    def test_get_result(self):
+        frank = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
+        alice = "tz1LFuHW4Z9zsCwg1cgGTKU12WZAs27ZD14v"
+        bob = "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ"
+
+        result = self.voteContract.vote(
+            True
+        ).result(
+            storage = {
+            "votes": { frank: True, bob: False },
+            "paused": False,
+            "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
+            "voteCount": 9,
+            "result": ""
+            },
+            source = alice
+        )
+        self.assertEqual("oui", result.storage["result"])
+
+    def test_draw(self):
+        frank = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
+        pascal = "tz1hv9CrgtaxiCayc567KUvCyWDQRF9sVNuf"
+        alice = "tz1LFuHW4Z9zsCwg1cgGTKU12WZAs27ZD14v"
+        bob = "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ"
+
+
+        result = self.voteContract.vote(
+            True
+        ).result(
+            storage = {
+            "votes": { frank: True, bob: False, pascal: False },
+            "paused": False,
+            "admin": "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ",
+            "voteCount": 9,
+            "result": ""
+            },
+            source = alice
+        )
+        self.assertEqual("egalite", result.storage["result"])
