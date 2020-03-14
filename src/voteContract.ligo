@@ -23,10 +23,8 @@ function is_paused(const store: storageType): bool is
 
 function subVote(const vote: bool; const store: storageType): (list(operation) * storageType) is
     begin
-        if is_paused(store) then
-            if is_admin(store) then
-                failwith("Admin can't vote");
-            else {
+        if is_paused(store) = False then
+            if is_admin(store) = False then
                 case store.votes[sender] of
                     Some (bool) -> failwith("you have already voted !")
                     | None -> block {
@@ -37,7 +35,7 @@ function subVote(const vote: bool; const store: storageType): (list(operation) *
                         else skip
                     }
                 end
-            }
+            else failwith("Admin can't vote");
         else failwith("Contract is paused");
     end with ((nil: list(operation)) , store)
 
