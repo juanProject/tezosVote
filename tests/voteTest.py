@@ -82,7 +82,7 @@ class voteContractTest(TestCase):
             True
         ).result(
             storage = {
-            "votes": { },
+            "votes": { lucas: True, bob: False, frank: False, pascal: False, bartholome: False, jacob: False, lucina: False, mark: False, jean: False },
             "paused": False,
             "admin": admin,
             "voteCount": 9,
@@ -98,7 +98,7 @@ class voteContractTest(TestCase):
             0
         ).result(
             storage = {
-            "votes": { alice: True, bob: True },
+            "votes": { lucas: True, bob: False, frank: False, pascal: False, bartholome: False, jacob: False, lucina: False, mark: False, jean: False, boby: False },
             "paused": True,
             "admin": admin,
             "voteCount": 10,
@@ -117,7 +117,7 @@ class voteContractTest(TestCase):
                 0
             ).result(
                 storage = {
-                "votes": {  },
+                "votes": { lucas: True, bob: False, frank: False, pascal: False, bartholome: False, jacob: False, lucina: False, mark: False, jean: False, boby: False },
                 "paused": True,
                 "admin": admin,
                 "voteCount": 10,
@@ -131,7 +131,7 @@ class voteContractTest(TestCase):
             True
         ).result(
             storage = {
-            "votes": { bob: True },
+            "votes": { lucas: True, bob: True, frank: True, pascal: True, bartholome: True, jacob: True, lucina: False, mark: False, jean: False },
             "paused": False,
             "admin": admin,
             "voteCount": 9,
@@ -146,7 +146,7 @@ class voteContractTest(TestCase):
             True
         ).result(
             storage = {
-            "votes": { bob: True, pascal: False, frank: False },
+            "votes": { lucas: True, bob: True, frank: True, pascal: True, bartholome: False, jacob: False, lucina: False, mark: False, jean: False },
             "paused": False,
             "admin": admin,
             "voteCount": 9,
