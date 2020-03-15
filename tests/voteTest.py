@@ -111,6 +111,24 @@ class voteContractTest(TestCase):
         self.assertEqual(0, result.storage["voteCount"])
         self.assertEqual("", result.storage["result"])
 
+    def test_reset_not_amdin(self):
+        alice = "tz1LFuHW4Z9zsCwg1cgGTKU12WZAs27ZD14v"
+        bob = "tz1VphG4Lgp39MfQ9rTUnsm7BBWyXeXnJSMZ"
+        frank = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
+        with self.assertRaises(MichelsonRuntimeError):
+            self.voteContract.reset(
+                0
+            ).result(
+                storage = {
+                "votes": { alice: True, frank: True },
+                "paused": True,
+                "admin": "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z",
+                "voteCount": 10,
+                "result": "oui"
+                },
+                source = bob
+            )
+
     def test_get_result(self):
         frank = "tz1ibMpWS6n6MJn73nQHtK5f4ogyYC1z9T9z"
         alice = "tz1LFuHW4Z9zsCwg1cgGTKU12WZAs27ZD14v"
