@@ -82,7 +82,7 @@ class voteContractTest(TestCase):
             True
         ).result(
             storage = {
-            "votes": { lucas: True, bob: False, frank: False, pascal: False, bartholome: False, jacob: False, lucina: False, mark: False, jean: False },
+            "votes": { bob: True, frank: False, pascal: False, jacob: False, lucina: False, mark: False, jean: False, boby: False , bartholome: False },
             "paused": False,
             "admin": admin,
             "voteCount": 9,
@@ -98,7 +98,7 @@ class voteContractTest(TestCase):
             0
         ).result(
             storage = {
-            "votes": { lucas: True, bob: False, frank: False, pascal: False, bartholome: False, jacob: False, lucina: False, mark: False, jean: False, boby: False },
+            "votes": { bob: True, frank: False, pascal: False, jacob: False, lucina: False, mark: False, jean: False, boby: False , bartholome: False, lucas: False },
             "paused": True,
             "admin": admin,
             "voteCount": 10,
@@ -117,11 +117,11 @@ class voteContractTest(TestCase):
                 0
             ).result(
                 storage = {
-                "votes": { lucas: True, bob: False, frank: False, pascal: False, bartholome: False, jacob: False, lucina: False, mark: False, jean: False, boby: False },
+                "votes": { bob: True, frank: False, pascal: False, jacob: False, lucina: False, mark: False, jean: False, boby: False , bartholome: False, lucas: False },
                 "paused": True,
                 "admin": admin,
                 "voteCount": 10,
-                "result": "oui"
+                "result": "non"
                 },
                 source = alice
             )
@@ -131,7 +131,7 @@ class voteContractTest(TestCase):
             True
         ).result(
             storage = {
-            "votes": { lucas: True, bob: True, frank: True, pascal: True, bartholome: True, jacob: True, lucina: False, mark: False, jean: False },
+            "votes": { bob: True, frank: True, pascal: True, jacob: True, lucina: True, mark: False, jean: False, boby: False , bartholome: False },
             "paused": False,
             "admin": admin,
             "voteCount": 9,
@@ -146,7 +146,7 @@ class voteContractTest(TestCase):
             True
         ).result(
             storage = {
-            "votes": { lucas: True, bob: True, frank: True, pascal: True, bartholome: False, jacob: False, lucina: False, mark: False, jean: False },
+            "votes": { bob: True, frank: True, pascal: True, jacob: True, lucina: False, mark: False, jean: False, boby: False , bartholome: False },
             "paused": False,
             "admin": admin,
             "voteCount": 9,
